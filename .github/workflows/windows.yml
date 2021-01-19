@@ -25,8 +25,4 @@ jobs:
     - name: Assign User
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "Alone215" -Force)
     - name: Create Tunnel
-      timeout-minutes: 2
-      run: .\ngrok\ngrok.exe tcp 3389
-    - name: Create Tunnel
-      timeout-minutes: 2
-      run: .\ngrok\ngrok.exe tcp 3389
+      run: .\ngrok\ngrok.exe tcp 3389 --log=stdout > ngrok.log &
