@@ -26,3 +26,11 @@ jobs:
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "Alone215" -Force)
     - name: Create Tunnel
       run: .\ngrok\ngrok.exe tcp 3389 --log=stdout > ngrok.log &
+    - name: Download Timeout Script
+      run: Invoke-WebRequest https://raw.githubusercontent.com/Area69Lab/Windows-CRD/main/timeout.ps1 -OutFile timeout.ps1
+    - name: Keep Alive
+      continue-on-error: true
+      timeout-minutes: 2
+      run: ./timeout.ps1
+    - name: Keep Alive
+      run: ./timeout.ps1
