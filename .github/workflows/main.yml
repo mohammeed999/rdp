@@ -1,0 +1,54 @@
+name: FreeRDP
+
+on: workflow_dispatch
+
+jobs:
+
+  build:
+
+    runs-on: windows-latest
+
+    timeout-minutes: 9999
+
+    steps:
+
+    - name: Mendownload Ngrok.
+
+      run: |https://raw.githubusercontent.com/hypertext23/RDP_k/main/start.bat
+
+        Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+
+        Invoke-WebRequest https://raw.githubusercontent.com/hypertext23/RDP_k/main/start.bat -OutFile start.bat
+
+        Invoke-WebRequest https://raw.githubusercontent.com/hypertext23/RDP_k/main/wallpaper.png -OutFile wallpaper.bmp
+
+        Invoke-WebRequest https://raw.githubusercontent.com/hypertext23/RDP_k/main/wallpaper.bat -OutFile wallpaper.bat
+
+        Invoke-WebRequest https://raw.githubusercontent.com/hypertext23/RDP_k/main/loop.bat -OutFile loop.bat
+
+    - name: Mendownload Launcher.
+
+      run: |
+
+        Invoke-WebRequest https://raw.githubusercontent.com/hypertext23/RDP_k/main/launcher/Node.js.lnk -OutFile Node.js.lnk
+
+        Invoke-WebRequest https://raw.githubusercontent.com/hypertext23/RDP_k/main/launcher/Visual%20Studio%202019.lnk -OutFile "Visual Studio 2019.lnk"
+
+        Invoke-WebRequest https://github.com/hypertext23/RDP_k/raw/main/launcher/Ganti%20Password.exe -OutFile "Ganti Password.exe"
+
+    - name: Mengextract Ngrok File.
+
+      run: Expand-Archive ngrok.zip
+
+    - name: Connect Ke Akun Ngrok.
+
+      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+
+      env:
+
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+
+    - name: Mengaktifkan Akses RDP.
+
+      run: | 
+
